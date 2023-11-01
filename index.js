@@ -9,7 +9,7 @@ const invoiceRoute = require('./Routes/invoiceRoute')
 app.use('/authenticate', authenticateRoute)
 app.use('/invoice', invoiceRoute)
 app.post('/check', (req, res) => {
-    console.log('hi')
+    res.send('hi')
 })
 app.listen(process.env.PORT, () => {
 })
