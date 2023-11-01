@@ -8,8 +8,5 @@ const authenticateRoute = require('./Routes/userRoute')
 const invoiceRoute = require('./Routes/invoiceRoute')
 app.use('/authenticate', authenticateRoute)
 app.use('/invoice', invoiceRoute)
-app.post('/check', (req, res) => {
-    res.send('hi')
-})
 app.listen(process.env.PORT, () => {
 })
