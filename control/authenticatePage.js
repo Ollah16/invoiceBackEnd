@@ -1,6 +1,6 @@
 const { Sequelize } = require("sequelize");
 const { sequelize } = require("../model/invoiceModel");
-const bcrypt = require("bcrypt");
+const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 
 
@@ -17,7 +17,7 @@ const handleUserLogin = async (req, res) => {
 
         if (users.length) {
             const hashedPassword = users[0].password;
-            const checkedPassword = await bcrypt.compare(password, hashedPassword);
+            const checkedPassword = await bcryptjs.compareSync(password, hashedPassword);
 
             if (checkedPassword) {
                 let userId = users[0].userId
@@ -44,7 +44,8 @@ const handleUserRegistration = async (req, res) => {
                 type: Sequelize.QueryTypes.SELECT
             })
         if (!checkEmail.length) {
-            const hashedPassword = await bcrypt.hash(password, 10);
+            const salt = await bcryptjs.genSalt(10);
+            const hashedPassword = await bcryptjs.hashSync(password, salt)
             await sequelize.query('INSERT INTO user(email, password) VALUES(?,?)',
                 {
                     replacements: [email, hashedPassword],
