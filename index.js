@@ -8,6 +8,6 @@ let authenticateRoute = require('./Routes/userRoute')
 let invoiceRoute = require('./Routes/invoiceRoute')
 app.use('/authenticate', authenticateRoute)
 app.use('/invoice', invoiceRoute)
-app.listen(port, () => {
+app.listen(process.env.PORT, () => {
     console.log(`connected to ${process.env.PORT}`)
 })
