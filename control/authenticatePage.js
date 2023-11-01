@@ -14,21 +14,21 @@ const handleUserLogin = async (req, res) => {
                 type: Sequelize.QueryTypes.SELECT
             }
         );
-        res.send(users, 'hi')
-        // if (users.length) {
-        //     const hashedPassword = users[0].password;
-        //     const checkedPassword = await bcrypt.compareSync(password, hashedPassword);
 
-        //     if (checkedPassword) {
-        //         let userId = users[0].userId
-        //         let accessToken = await jwt.sign({ userId }, process.env.SECRETKEY)
-        //         res.status(200).json({ message: 'Login successful!', accessToken });
-        //     } else {
-        //         res.status(401).json({ error: 'Invalid password.' });
-        //     }
-        // } else {
-        //     res.status(404).json({ error: 'User not found.' });
-        // }
+        if (users.length) {
+            const hashedPassword = users[0].password;
+            const checkedPassword = await bcrypt.compareSync(password, hashedPassword);
+
+            if (checkedPassword) {
+                let userId = users[0].userId
+                let accessToken = await jwt.sign({ userId }, process.env.SECRETKEY)
+                res.status(200).json({ message: 'Login successful!', accessToken });
+            } else {
+                res.status(401).json({ error: 'Invalid password.' });
+            }
+        } else {
+            res.status(404).json({ error: 'User not found.' });
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'An error occurred while logging in the user.' });
