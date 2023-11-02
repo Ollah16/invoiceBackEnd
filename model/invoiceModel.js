@@ -1,4 +1,5 @@
 const { Sequelize } = require('sequelize');
+const fs = require('fs');
 
 const sequelize = new Sequelize(
     process.env.DB_DATABASE,
@@ -7,8 +8,23 @@ const sequelize = new Sequelize(
     {
         host: process.env.DB_HOST,
         dialect: 'mysql',
-        dialectModule: require('mysql2')
-    });
+        dialectOptions: {
+            ssl: {
+                ca: fs.readFileSync('/etc/pki/tls/certs/ca-bundle.crt'),
+            },
+        },
+    }
+);
+
+
+(async () => {
+    try {
+        await sequelize.authenticate();
+        console.log('database connection successful');
+    } catch (error) {
+        console.log('database connection failed', error);
+    }
+})();
 
 
 module.exports = { sequelize }
