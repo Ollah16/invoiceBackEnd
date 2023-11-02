@@ -7,14 +7,9 @@ const sequelize = new Sequelize(
     {
         host: process.env.DB_HOST,
         dialect: 'mysql',
-        dialectModule: require('mysql2'),
-        pool: {
-            max: 5,
-            min: 0,
-            idle: 1000,
-            handleDisconnects: true
-        }
+        dialectModule: require('mysql2')
     });
+
 
 module.exports = { sequelize }
 
